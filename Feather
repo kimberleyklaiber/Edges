@@ -1,0 +1,191 @@
+set cut_paste_input [stack 0]
+version 12.0 v3
+push $cut_paste_input
+Group {
+ name Feather_v02_1
+ selected true
+ xpos -8422
+ ypos 592
+ addUserKnob {20 User}
+ addUserKnob {41 channels T Blur1.channels}
+ addUserKnob {7 amount R -100 100}
+ amount -4
+ addUserKnob {41 filter T Blur1.filter}
+ addUserKnob {26 ""}
+ addUserKnob {4 fallOff M {linear smooth smooth0 smooth1 "" "" "" ""}}
+ fallOff smooth
+ addUserKnob {41 value l gamma T Gamma1.value}
+}
+ Input {
+  inputs 0
+  name InputMask
+  xpos 655
+  ypos -80
+  number 1
+ }
+ Invert {
+  name Invert1
+  xpos 655
+  ypos -24
+ }
+ AddChannels {
+  channels rgba
+  name AddChannels1
+  selected true
+  xpos 655
+  ypos 33
+ }
+ Invert {
+  name Invert2
+  xpos 655
+  ypos 95
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 181
+  ypos -498
+ }
+ Dot {
+  name Dot5
+  xpos 215
+  ypos -433
+ }
+set N6b418400 [stack 0]
+ Blur {
+  channels rgba
+  size {{parent.amount*2 i}}
+  name Blur1
+  label "\[value size]"
+  xpos 181
+  ypos -360
+ }
+set N6b418000 [stack 0]
+ Grade {
+  channels {{{parent.Blur1.channels}}}
+  whitepoint 0.47
+  white_clamp true
+  name Grade2
+  xpos 287
+  ypos -280
+ }
+push $N6b418000
+ Grade {
+  channels {{{parent.Blur1.channels}}}
+  blackpoint 0.52
+  white_clamp true
+  name Grade1
+  xpos 181
+  ypos -280
+ }
+ Switch {
+  inputs 2
+  which {{"parent.amount < 0 ? 0 : 1" i}}
+  name Switch1
+  xpos 181
+  ypos -234
+ }
+ Dot {
+  name Dot1
+  xpos 215
+  ypos -188
+ }
+set N6b43d000 [stack 0]
+ Dot {
+  name Dot4
+  xpos 310
+  ypos -188
+ }
+set N6b43cc00 [stack 0]
+ Dot {
+  name Dot2
+  xpos 434
+  ypos -188
+ }
+set N6b43c800 [stack 0]
+ Dot {
+  name Dot3
+  xpos 544
+  ypos -188
+ }
+ ColorLookup {
+  channels {{{parent.Blur1.channels}}}
+  lut {master {curve L 0 C k 1 s0}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup2
+  label smooth1
+  xpos 510
+  ypos -147
+ }
+push $N6b43c800
+ ColorLookup {
+  channels {{{parent.Blur1.channels}}}
+  lut {master {curve C k 0 s0 L 1}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup1
+  label smooth0
+  xpos 400
+  ypos -148
+ }
+push $N6b43cc00
+ ColorLookup {
+  channels {{{parent.Blur1.channels}}}
+  lut {master {curve C k 0 s0 1 s0}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup3
+  label smooth
+  xpos 276
+  ypos -146
+ }
+push $N6b43d000
+ Switch {
+  inputs 4
+  which {{parent.fallOff i}}
+  name Switch2
+  xpos 181
+  ypos -75
+ }
+ Clamp {
+  channels {{{parent.Blur1.channels}}}
+  name Clamp1
+  xpos 181
+  ypos -38
+ }
+ Gamma {
+  channels {{{parent.Blur1.channels}}}
+  name Gamma1
+  xpos 181
+  ypos 22
+ }
+push $N6b418400
+ Dot {
+  name Dot6
+  xpos 53
+  ypos -433
+ }
+ Dot {
+  name Dot7
+  xpos 53
+  ypos 105
+ }
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos 181
+  ypos 95
+ }
+ Output {
+  name Output1
+  xpos 181
+  ypos 258
+ }
+end_group
